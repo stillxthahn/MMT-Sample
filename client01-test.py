@@ -13,7 +13,6 @@ AUTOLOAD = data["Autoload"]
 
 #MAIL CLIENT CONSOLE
 
-
 while True:
     print("Vui lòng chọn Menu:\r\n")
     print("1. Để gửi email\r\n")
@@ -22,11 +21,10 @@ while True:
     choice = input("Bạn chọn: ")
     if (choice == "1"):
         #SEND EMAIL
-        sendEmail(HOST, SEND_PORT, EMAIL)
+        sendEmail(USERNAME, EMAIL, HOST, SEND_PORT)
     elif (choice == "2"):
-        #readEmail()
+        #READ EMAIL
         readEmail(EMAIL, PASSWORD, HOST, RECV_PORT)
-        print("DOC EMAIL !")
     elif (choice == "3"):
         exit(0)
 
