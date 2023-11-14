@@ -1,4 +1,6 @@
 import socket
+from listreadEmail import listreadEmail
+from displayEmail_Infor import displayEmail_Infor
 
 def readEmail(username, password, host, port):
   #CREATE SOCKET OBJECT AND CONNECT TO SERVER
@@ -49,7 +51,9 @@ def readEmail(username, password, host, port):
   client.send(uidlCommand.encode())
   uidlData = client.recv(1024)
   uidlData = uidlData.decode()
-  print(uidlData)
+  list = listreadEmail(uidlData)
+  print(list)
+  displayEmail_Infor(list)
 
   choice = input("Bạn muốn đọc Email thứ mấy: ")
   retrCommand = f"RETR {choice}\r\n"
@@ -58,7 +62,5 @@ def readEmail(username, password, host, port):
   data = client.recv(1024)
   data = data.decode()
   print(f"Nội dung email của email thứ {choice}: ", data)
+
   client.close()
-
-
-

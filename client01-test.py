@@ -10,7 +10,7 @@ HOST = data["MailServer"]
 SEND_PORT = int(data["SMTP"])
 RECV_PORT = int(data["POP3"])
 AUTOLOAD = data["Autoload"]
-
+#confict
 #MAIL CLIENT CONSOLE
 
 while True:
@@ -27,6 +27,4 @@ while True:
         readEmail(EMAIL, PASSWORD, HOST, RECV_PORT)
     elif (choice == "3"):
         exit(0)
-
-
 

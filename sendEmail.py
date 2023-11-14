@@ -28,10 +28,12 @@ def sendEmail(username, emailFrom, host, port):
   print("Đây là thông tin soạn email: (nếu không điền vui lòng nhấn enter để bỏ qua)")
   to_list_str = input("To: ")
   tos_list = to_list_str.split(", ")
+  # tra ra 1 mang gom cac email -> lap qua cac email
   cc_list_str = input("CC: ")
   ccs_list = cc_list_str.split(", ")
   bcc_list_str = input("BCC: ")
   bccs_list = bcc_list_str.split(", ")
+
   for to in tos_list:
     rcptTo = f"RCPT TO:{to}\r\n"
     client.send(rcptTo.encode())
@@ -54,6 +56,7 @@ def sendEmail(username, emailFrom, host, port):
     elif (attachFiles == "2"): break;
     else: print("Lựa chọn không hợp lệ, bạn hãy nhập lại")
 
+  #DATA 
   dataSend = 'DATA' + '\r\n'
   client.send(dataSend.encode())
   recv4 = client.recv(1024)
