@@ -11,14 +11,12 @@ def displayEmail_Infor(List):
         PATH = f".\socket\debug\example@example.com\{List[i]}"
         email_File = open(PATH)
         #email_File = open(List[i])
-        messagedic = email.Message(email_File)
-        #content_type = messagedic["plain/text"]
-        FROM = messagedic["From: "]
-        TO = messagedic.getaddr("To: ")
-        sujet = messagedic["Subject: "]
+        messagedic = email.message_from_file(email_File)
+        content_type = messagedic["plain/text"]
+        FROM = messagedic.get("From: ")
+        #TO = messagedic.getaddr("To: ")
+        sujet = messagedic.get("Subject: ")
         email_File.close()
-        print(str(i + 1) + ". " + FROM + ", " + sujet)
-        #return content_type, FROM, TO, sujet
-        #myMSG= read_MSG("client.msg")
-        #print(myMSG)
+        print("DOC DC ")
+        print(str(i + 1) + ". " + str(FROM) + ", " + str(sujet))
     

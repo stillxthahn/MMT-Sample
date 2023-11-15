@@ -1,6 +1,7 @@
 import socket
 import uuid
 import time
+from send_attachment_file import send_attachment_file
 def sendEmail(username, emailFrom, host, port):
   #CREATE SOCKET OBJECT AND CONNECT TO SERVER
   client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -42,6 +43,13 @@ def sendEmail(username, emailFrom, host, port):
   #for ccs in ccs_list:
   #for bccs in bccs_list:
 
+  #DATA 
+  dataSend = 'DATA' + '\r\n'
+  client.send(dataSend.encode())
+  recv4 = client.recv(1024)
+  recv4 = recv4.decode()
+  #print("Message after RCPT TO command:" + recv4)
+
   #INPUT SUBJECT AND CONTENT
   subject = input("Subject: ")
   content = input("Content: ")
@@ -52,16 +60,14 @@ def sendEmail(username, emailFrom, host, port):
     if (attachFiles == "1"):
       numberofFiles = input("Số lượng file muốn gửi: ")
       #for statement
+      attachment_path = input("Nhập đường dẫn file đính kèm: ")
+      #"C:/Users/Admins/Downloads/img.jpg"
+      send_attachment_file(client, attachment_path)
       break
     elif (attachFiles == "2"): break;
     else: print("Lựa chọn không hợp lệ, bạn hãy nhập lại")
 
-  #DATA 
-  dataSend = 'DATA' + '\r\n'
-  client.send(dataSend.encode())
-  recv4 = client.recv(1024)
-  recv4 = recv4.decode()
-  #print("Message after RCPT TO command:" + recv4)
+  
 
   # INPUTING DATA
   unique_id = uuid.uuid4()
