@@ -52,8 +52,6 @@ def readEmail(username, password, host, port):
   uidlData = client.recv(1024)
   uidlData = uidlData.decode()
 
-
-
   choice = input("Bạn muốn đọc Email thứ mấy: ")
   retrCommand = f"RETR {choice}\r\n"
   client.send(retrCommand.encode())

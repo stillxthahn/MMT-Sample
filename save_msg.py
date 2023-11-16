@@ -1,10 +1,9 @@
 import os
-def save_msg(list):
-  for path in list:
-    try:
-      f = open(path, 'r')
-      text = f.read()
-      print(text)
-      f.close()
-    except IOError:
-      print("Problem reading: " + path)
+def save_msg():
+  print("LIST FILE: ")
+  FILES = os.listdir(r"C:\Users\Admins\Desktop\Mạng máy tính\Tai_lieu_Socket\sample_code\Local\Inbox")
+  if (len(FILES) == 0):
+    print("DIRECTORY IS EMPTY")
+  else: print(FILES)
+
+save_msg()
