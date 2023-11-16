@@ -1,7 +1,7 @@
 import socket
 from listreadEmail import listreadEmail
 from displayEmail_Infor import displayEmail_Infor
-from save_msg import save_msg
+#from save_msg import save_msg
 def readEmail(username, password, host, port):
   #CREATE SOCKET OBJECT AND CONNECT TO SERVER
   client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)

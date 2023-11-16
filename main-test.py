@@ -1,7 +1,7 @@
 import os
-def save_msg(list):
+def save_msg():
   print("LIST FILE: ")
-  data = os.listdir(r"C:\Users\Admins\Desktop\Mạng máy tính\Tai_lieu_Socket\sample_code\Local\Inbox")
+  data = os.listdir(r"C:\Users\lxtha\Desktop\Mạng máy tính\socket\debug\example@example.com")
   print(data)
 
 save_msg()
