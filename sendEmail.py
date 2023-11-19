@@ -51,6 +51,20 @@ def input_email(tos_list, ccs_list, bccs_list, subject, content, num_files, file
     elif (attach_files == "2"): break;
     else: print("Lựa chọn không hợp lệ, bạn hãy nhập lại")
 
+def body_format(tos_list, ccs_list, username, emailFrom, subject, content):
+    unique_id = uuid.uuid4()
+    named_tuple = time.localtime()
+    local_time = time.strftime("%a, %d %b %Y %H:%M:%S", named_tuple)
+    messageID = f"Message-ID: {unique_id}@example.com\r\n"
+    date = f"Date: {local_time} +0700\r\n\r\n"
+    to = f"To: {",".join(tos_list)}\r\n"
+    cc = f"Cc: {",".join(ccs_list)}\r\n"
+    from_ = f"From: {username} <{emailFrom}>\r\n"
+    subject = f"Subject: {"".join(subject)}\r\n\r\n"
+    content = f"{"".join(content)}\r\n"
+    endMSG = ".\r\n"
+    return messageID + date + to + cc + from_ + subject + content + endMSG
+
 
 def sendEmail(username, emailFrom, host, port):
   #CREATE SOCKET OBJECT AND CONNECT TO SERVER
@@ -83,22 +97,9 @@ def sendEmail(username, emailFrom, host, port):
     body = body_format(tos_list, ccs_list, username, emailFrom, subject, content)
     send_command(client, body)
   else:
-    body_attachment = body_format_attachment(client, ",".join(tos_list), "".join(subject), "".join(content), num_files[0], file_path)
+    body_attachment = body_format_attachment(client, ",".join(tos_list), username, emailFrom, "".join(subject), "".join(content), num_files[0], file_path)
     client.send(body_attachment)
     send_command(client, "\r\n.\r\n")
   print("Đã gửi email thành công")
   client.close()
 
-def body_format(tos_list, ccs_list, username, emailFrom, subject, content):
-    unique_id = uuid.uuid4()
-    named_tuple = time.localtime()
-    local_time = time.strftime("%a, %d %b %Y %H:%M:%S", named_tuple)
-    messageID = f"Message ID: {unique_id}@example.com\r\n"
-    date = f"Date: {local_time} +0700\r\n\r\n"
-    to = f"To: {",".join(tos_list)}\r\n"
-    cc = f"Cc: {",".join(ccs_list)}\r\n"
-    from_ = f"From: {username} <{emailFrom}>\r\n"
-    subject = f"Subject: {"".join(subject)}\r\n\r\n"
-    content = f"{"".join(content)}\r\n"
-    endMSG = ".\r\n"
-    return messageID + date + to + cc + from_ + subject + content + endMSG

@@ -1,0 +1,2 @@
+cd C:\Users\lxtha\Desktop\Mạng máy tính\MMT-Sample\socket\debug
+"C:\Program Files\Java\jdk1.8.0_321\bin\java" -jar test-mail-server-1.0.jar -s 2225 -p 3335 -m ./

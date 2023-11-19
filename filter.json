@@ -1,0 +1,31 @@
+[
+    {
+        "folder": "Project",
+        "from": [
+            "lxthanh22clc@fitus.edu.vn",
+            "example@example.com"
+        ]
+    },
+    {
+        "folder": "Important",
+        "subject": [
+            "urgent",
+            "ASAP"
+        ]
+    },
+    {
+        "folder": "Work",
+        "content": [
+            "report",
+            "meeting"
+        ]
+    },
+    {
+        "folder": "Spam",
+        "subject_content": [
+            "virus",
+            "hack",
+            "crack"
+        ]
+    }
+]
