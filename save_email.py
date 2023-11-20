@@ -46,14 +46,14 @@ def parse_email(data):
           data_attachment = data_attachment + lines[k]
         attachment_data.append(data_attachment.strip())
     print("ID:", message_id, "Date:",date, "To:", tos, "From:",_from, "Subject:", subject, "Content:", content, "Attachment:", attachment_data)
-    return {message_id, dates, tos, _from, subject, content, attachment_data}
+    return {message_id, date, tos, _from, subject, content, attachment_data}
     
 def save_msg(data):
   data_arr = data.split('\r\n')
   json_filter = read_json_file("filter.json")
   
 def save_email(client, list):
-  for i in range(1, len(list) + 1):
+  for i in range(1, len(list)):
       data = send_command(client, f"RETR {i}\r\n")
       save_msg(list[i])
 

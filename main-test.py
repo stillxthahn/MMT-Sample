@@ -81,48 +81,55 @@ RDu5xwSAXhH0pkDSrLnU/eegZgDCJwEA8z1UKhlaYp/S+iA0RR76mSU8EOqfcxK0J01ocDvsFxVF
 
 
 --===============7822051727812789830==--"""
-def parse_email(data):
-  lines = data.split('\n')
-  content_type = ""
-  boundary = ""
-  mime_version = ""
-  message_id = ""
-  date = ""
-  tos = []
-  _from = ""
-  subject = ""
-  attachment_data = []
-  in_attachment = False
-  in_content = False
-  content = ""
-  start_idx_attach = 0
-  if (lines[0].startswith("Content-Type: multipart/mixed") == 1):
-    boundary = lines[0][lines[0].find('"') + 1:len(lines[0]) - 1]
-    for i in range(1, len(lines)):
-      if lines[i].startswith("Message-ID"): message_id = lines[i].split(": ", 1)[1]
-      elif lines[i].startswith("Date"): date = lines[i].split(": ", 1)[1]
-      elif lines[i].startswith("To"): 
-        to = lines[i].split(": ", 1)[1]
-        tos = to.split(',')
-      elif lines[i].startswith("From"): _from = lines[i].split(": ", 1)[1]
-      elif lines[i].startswith("Subject"): subject = (lines[i].split(": ", 1)[1]).strip()
-      elif boundary in lines[i]:
-        start_idx_attach = i
-        break
+# def parse_email(data):
+#   lines = data.split('\n')
+#   content_type = ""
+#   boundary = ""
+#   mime_version = ""
+#   message_id = ""
+#   date = ""
+#   tos = []
+#   _from = ""
+#   subject = ""
+#   attachment_data = []
+#   in_attachment = False
+#   in_content = False
+#   content = ""
+#   start_idx_attach = 0
+#   if (lines[0].startswith("Content-Type: multipart/mixed") == 1):
+#     boundary = lines[0][lines[0].find('"') + 1:len(lines[0]) - 1]
+#     for i in range(1, len(lines)):
+#       if lines[i].startswith("Message-ID"): message_id = lines[i].split(": ", 1)[1]
+#       elif lines[i].startswith("Date"): date = lines[i].split(": ", 1)[1]
+#       elif lines[i].startswith("To"): 
+#         to = lines[i].split(": ", 1)[1]
+#         tos = to.split(',')
+#       elif lines[i].startswith("From"): _from = lines[i].split(": ", 1)[1]
+#       elif lines[i].startswith("Subject"): subject = (lines[i].split(": ", 1)[1]).strip()
+#       elif boundary in lines[i]:
+#         start_idx_attach = i
+#         break
 
-    for j in range(start_idx_attach + 1, len(lines), 1):
-      if lines[j].startswith("Content-Transfer-Encoding: 7bit"):
-        for k in range(j + 2, len(lines)):
-          if boundary in lines[k]:
-            break
-          content = content + lines[k]
-      elif lines[j].startswith("Content-Disposition: attachment"):
-        data_attachment = ""
-        file_name = ""
-        for k in range(j + 2, len(lines)):
-          if boundary in lines[k]:
-            break
-          data_attachment = data_attachment + lines[k]
-        attachment_data.append(data_attachment.strip())
-    print("ID:", message_id, "Date:",date, "To:", tos, "From:",_from, "Subject:", subject, "Content:", content, "Attachment:", attachment_data)
-parse_email(data)
+#     for j in range(start_idx_attach + 1, len(lines), 1):
+#       if lines[j].startswith("Content-Transfer-Encoding: 7bit"):
+#         for k in range(j + 2, len(lines)):
+#           if boundary in lines[k]:
+#             break
+#           content = content + lines[k]
+#       elif lines[j].startswith("Content-Disposition: attachment"):
+#         data_attachment = ""
+#         file_name = ""
+#         for k in range(j + 2, len(lines)):
+#           if boundary in lines[k]:
+#             break
+#           data_attachment = data_attachment + lines[k]
+#         attachment_data.append(data_attachment.strip())
+#     print("ID:", message_id, "Date:",date, "To:", tos, "From:",_from, "Subject:", subject, "Content:", content, "Attachment:", attachment_data)
+# parse_email(data)
+
+
+path = "C:/Users/lxtha/Desktop/ATTACHMENT.txt"
+file_name = path[path.rfind('/') + 1:len(path)]
+file_name_arr = [] 
+file_name_arr.append(file_name)
+print(file_name_arr)
