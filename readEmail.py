@@ -3,7 +3,7 @@ from listreadEmail import listreadEmail
 from displayEmail_Infor import displayEmail_Infor
 from load_email_json import load_email_json
 from sendEmail import send_command
-from save_email import save_email
+from get_email import get_email
 #from save_msg import save_msg
 def readEmail(username, password, host, port):
   #CREATE SOCKET OBJECT AND CONNECT TO SERVER
@@ -22,18 +22,13 @@ def readEmail(username, password, host, port):
   send_command(client, "CAPA\r\n")
   send_command(client, f"USER {username}\r\n")
   send_command(client, f"PASS {password}\r\n")
-  state = send_command(client, "STAT\r\n")
-  print(state)
-  state_arr = state.split()
-  print(state_arr)
+  send_command(client, "STAT\r\n")
 
-  listCommand = "LIST\r\n"
   list_data =  send_command(client, "LIST\r\n")
-
   uidl_data = send_command(client, "UIDL\r\n")
   list = listreadEmail(uidl_data)
-  save_email(client, list)
-  #load_email_json(client, list)
+  print(list)
+  get_email(client, list)
 
   choice = input("Bạn muốn đọc Email thứ mấy: ")
   retrCommand = f"RETR {choice}\r\n"
@@ -41,10 +36,6 @@ def readEmail(username, password, host, port):
   data = client.recv(1024)
   data = data.decode()
   print(f"Nội dung email của email thứ {choice}: ", data)
-  top = f"TOP {choice} 5\r\n"
-  client.send(top.encode())
-  topData = client.recv(1024)
-  topData = topData.decode()
-  print(topData)
+  
 
   client.close()
