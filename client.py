@@ -1,8 +1,8 @@
-from readConfig import readConfig
+from read_json_file import read_json_file
 from send_email import send_email
 from read_email import read_email
 #READ CONFIG FILE
-data = readConfig()
+data = read_json_file("config.json")
 USERNAME = data["Username"]
 EMAIL = data["Email"]
 PASSWORD = data["Password"]
@@ -27,4 +27,4 @@ while True:
         read_email(EMAIL, PASSWORD, HOST, RECV_PORT)
     elif (choice == "3"):
         exit(0)
-
+#ALO
