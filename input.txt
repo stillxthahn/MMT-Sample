@@ -1,21 +1,3 @@
-AS
-
-sửa bên lap -> push lên
-sửa bên desktop
-
-sửa bên lap 2 -> push lên
-sửa bên lap 3 -> push lên
-sửa bên lap 4 -> push lên
-
-sửa bên lap 5 -> push lên
-test
-
-a lo alo alo 
-
-alo alo
-desktop test
-test 1
-test 2
-alo
-
-desktop test 3
+2 cách:
+    1. stash lưu theo stack. git stash -> git pull -> git stash pop (có conflict thì sửa) -> git add -> git commit -> git push
+    2. git commit -> git pull --rebase -> có conflict thì sửa -> git push
