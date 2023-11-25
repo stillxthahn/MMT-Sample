@@ -1,2 +1,4 @@
 AS
+
+sửa bên lap -> push lên
 sửa bên desktop
