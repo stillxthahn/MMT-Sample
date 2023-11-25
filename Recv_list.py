@@ -23,16 +23,24 @@ def read_chosen_file(foldername, choice):
         readfile = msgfile.read()
         print ("Nội dung của email thứ {choice}: " , readfile)
 
-
-def update_status(listjson, choice):
-    if 1 <= int(choice) <= len(listjson):
-        selected_email = listjson[int(choice) - 1]
-        selected_email["Status"] = 1
-        return True
-    else:
-        return False
-
-    # Lưu lại dữ liệu vào tệp JSON
-def update_read(listjson):
-    with open('Email_Infor.json', 'w') as file:
-        json.dump(listjson, file, indent=2)
+def update_status(foldername, choice):
+    folder_path = os.path.join(os.getcwd(), "local_mailbox", foldername)
+    files_arr = os.listdir(folder_path)
+    files_arr.reverse()
+    if 1 <= int(choice) <= len(files_arr):
+        selected_email_file = files_arr[int(choice) - 1]
+        listjson = read_json_file('Email_Infor.json')
+        for i in range(len(listjson)):
+            if listjson[i]["Filename"] == selected_email_file:
+                try:
+                    with open("Email_Infor.json", 'r') as fileread:
+                        list = json.load(fileread)
+                        print(list)
+                except FileNotFoundError:
+                    print ("Khong the mo file!")
+                list[i]["Status"] = 1
+                try:
+                    with open('Email_Infor.json', 'w') as filewrite:
+                        json.dump(list,filewrite,indent = 2)
+                except FileNotFoundError:
+                    print ("Khong the mo file!")

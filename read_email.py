@@ -5,6 +5,7 @@ from send_email import send_command
 from get_email import get_email
 from Recv_list import output_receive_list
 from Recv_list import read_chosen_file
+from Recv_list import update_status
 #from save_email import save_email
 def read_email(username, password, host, port):
   #CREATE SOCKET OBJECT AND CONNECT TO SERVER
@@ -36,23 +37,27 @@ def read_email(username, password, host, port):
     output_receive_list("Inbox")
     choice = input("Bạn muốn đọc Email thứ mấy: ")
     read_chosen_file("Inbox", choice)
+    update_status("Inbox", choice)
 
   elif (folder == '2'):
     print("Bạn chọn thư mục Project")
     output_receive_list("Project")
     choice = input("Bạn muốn đọc Email thứ mấy: ")
     read_chosen_file("Project", choice)
+    update_status("Project", choice)
   elif (folder == '3'):
     print("Bạn chọn thư mục Important")
     output_receive_list("Important")
     choice = input("Bạn muốn đọc Email thứ mấy: ")
     read_chosen_file("Important", choice)
+    update_status("Important", choice)
   elif (folder == '4'):
     output_receive_list("Work")
     choice = input("Bạn muốn đọc Email thứ mấy: ")
     read_chosen_file("Work", choice)
+    update_status("Work", choice)
   elif (folder == '5'):
     output_receive_list("Spam")
     choice = input("Bạn muốn đọc Email thứ mấy: ")
     read_chosen_file("Spam", choice)
-  client.close()
+    update_status("Spam", choice)

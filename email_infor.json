@@ -1,1 +1,14 @@
-[{"Status": "0", "From": "Mang may tinh <example@example.com>", "Subject": "TEST", "Filename": "20231125164700488.msg"}]
+[
+  {
+    "Status": 1,
+    "From": "Mang may tinh <example@example.com>",
+    "Subject": "",
+    "Filename": "20231125165333982.msg"
+  },
+  {
+    "Status": 1,
+    "From": "Mang may tinh <example@example.com>",
+    "Subject": "virus",
+    "Filename": "20231125165535898.msg"
+  }
+]
