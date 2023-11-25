@@ -1,7 +1,7 @@
 import os
 import json
 from read_json_file import read_json_file
-from sendEmail import send_command
+from send_email import send_command
 import re
 def parse_data_with_attachment(data):
     lines = data.split('\n')

@@ -1,7 +1,11 @@
 import socket
 import uuid
 import time
-from body_format_attachment import body_format_attachment
+from email.mime.multipart import MIMEMultipart
+from email.mime.application import MIMEApplication
+from email.mime.text import MIMEText
+import mimetypes
+import os
 
 def send_command(client, command):
   try:
@@ -11,6 +15,8 @@ def send_command(client, command):
   except Exception as e:
     print(f"Lỗi: {e}")
     return ""
+
+
 def input_email(tos_list, ccs_list, bccs_list, subject, content, num_files, file_path):
   print("Đây là thông tin soạn email: (nếu không điền vui lòng nhấn enter để bỏ qua)")
   to_list_str = input("To: ")
@@ -18,13 +24,15 @@ def input_email(tos_list, ccs_list, bccs_list, subject, content, num_files, file
   for to in tos:
     tos_list.append(to)
   cc_list_str = input("CC: ")
-  ccs = cc_list_str.split(", ")
-  for cc in ccs:
-    ccs_list.append(cc)
+  if (cc_list_str != ''):
+    ccs = cc_list_str.split(", ")
+    for cc in ccs:
+      ccs_list.append(cc)
   bcc_list_str = input("BCC: ")
-  bccs = bcc_list_str.split(", ")
-  for bcc in bccs:
-    bccs_list.append(bcc)
+  if (bcc_list_str != ''):
+    bccs = bcc_list_str.split(", ")
+    for bcc in bccs:
+      bccs_list.append(bcc)
   sub = input('Subject: ')
   subject.append(sub)
   subject = "".join(subject)
@@ -55,18 +63,41 @@ def body_format(tos_list, ccs_list, username, emailFrom, subject, content):
     unique_id = uuid.uuid4()
     named_tuple = time.localtime()
     local_time = time.strftime("%a, %d %b %Y %H:%M:%S", named_tuple)
-    messageID = f"""Message-ID: {unique_id}@example.com\r\n"""
-    date = f"""Date: {local_time} +0700\r\n\r\n"""
+    messageID = f"Message-ID: {unique_id}@example.com\r\n"
+    date = f"Date: {local_time} +0700\r\n"
     to = f"""To: {",".join(tos_list)}\r\n"""
-    cc = f"""Cc: {",".join(ccs_list)}\r\n"""
+    cc = ''
+    if len(ccs_list):
+      cc = f"""Cc: {",".join(ccs_list)}\r\n"""
     from_ = f"""From: {username} <{emailFrom}>\r\n"""
     subject = f"""Subject: {"".join(subject)}\r\n\r\n"""
     content = f"""{"".join(content)}\r\n"""
-    endMSG = """.\r\n"""
+    endMSG = ".\r\n"
     return messageID + date + to + cc + from_ + subject + content + endMSG
 
+def body_format_attachment(to, cc, username, emailfrom, subject, content, file_path):
+  msg = MIMEMultipart()
+  local_time = time.strftime("%a, %d %b %Y %H:%M:%S", time.localtime())
+  msg['Message-ID'] = f"{uuid.uuid4()}@example.com"
+  msg['Date'] = f"{local_time} +0700"
+  msg['To'] = to
+  msg['Cc'] = cc
+  msg['From'] = f"{username} <{emailfrom}>"
+  msg['Subject'] = subject
+  msg.attach(MIMEText(content, 'plain'))
+  for path in file_path:
+    with open(path, 'rb') as attachment:
+      attachment_part = MIMEApplication(attachment.read())
+      file_type = mimetypes.guess_type(path)
+      #C:/Users/lxtha/Desktop/ATTACHMENT.txt
+      file_name = path[path.rfind("\\") + 1:len(path)]
+      attachment_part.set_type(str(file_type[0]), header='Content-Type')
+      attachment_part.add_header("Content-Disposition", "attachment",filename=file_name)
+      msg.attach(attachment_part)
+  return msg.as_bytes()
 
-def sendEmail(username, emailFrom, host, port):
+
+def send_email(username, emailFrom, host, port):
   #CREATE SOCKET OBJECT AND CONNECT TO SERVER
   client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
   server_address = (host, port)
@@ -89,17 +120,19 @@ def sendEmail(username, emailFrom, host, port):
   input_email(tos_list, ccs_list, bccs_list, subject, content, num_files, file_path)
   for to in tos_list:
     send_command(client, f"RCPT TO:<{to}>\r\n")
-  # for cc in ccs_list:
-  #   send_command(client, f"RCPT TO:<{cc}>\r\n")
+  print("MANG CC:", ccs_list)
+  for cc in ccs_list:
+    send_command(client, f"RCPT TO:<{cc}>\r\n")
+  for bcc in bccs_list:
+    send_command(client, f"RCPT TO:<{bcc}>\r\n")
   send_command(client, f"DATA\r\n")
   # SENDING-DATA
   if (len(num_files) == 0  or int(num_files[0]) == 0):
     body = body_format(tos_list, ccs_list, username, emailFrom, subject, content)
     send_command(client, body)
   else:
-    body_attachment = body_format_attachment(client, ",".join(tos_list), username, emailFrom, "".join(subject), "".join(content), num_files[0], file_path)
+    body_attachment = body_format_attachment(",".join(tos_list), ",".join(ccs_list), username, emailFrom, "".join(subject), "".join(content), file_path)
     client.send(body_attachment)
     send_command(client, "\r\n.\r\n")
   print("Đã gửi email thành công")
   client.close()
-
