@@ -15,9 +15,8 @@ def auto_load_email(host, port, email, password):
      return
   list = get_list_emails(client, email, password)
   get_email(client, list)
-
 def thread_load_email(host, port, email, password, choice, _time):
     while choice != 3:
         time.sleep(_time)
         auto_load_email(host, port, email, password)
-        print("AUTOLOAD")
+        print("ALO")

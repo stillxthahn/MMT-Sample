@@ -6,7 +6,6 @@ from get_email import get_email
 from Recv_list import output_receive_list
 from Recv_list import read_chosen_file
 from Recv_list import update_status
-#from save_email import save_email
 
 def get_list_emails(client, username, password):
   send_command(client, "CAPA\r\n")
@@ -27,10 +26,8 @@ def read_email(username, password, host, port):
   except Exception as e:
      print(f"Lỗi: {e}")
      return
-
   list = get_list_emails(client, username, password)
   get_email(client, list)
-
   print("Đây là danh sách các folder trong mailbox của bạn: \r\n 1. Inbox \r\n 2. Project\r\n 3. Important \r\n 4. Work \r\n 5. Spam")
   folder = input("Bạn muốn xem email trong folder nào: ")
   if (folder == '1'):
@@ -39,7 +36,6 @@ def read_email(username, password, host, port):
     choice = input("Bạn muốn đọc Email thứ mấy: ")
     read_chosen_file("Inbox", choice)
     update_status("Inbox", choice)
-
   elif (folder == '2'):
     print("Bạn chọn thư mục Project")
     output_receive_list("Project")
